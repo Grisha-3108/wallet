@@ -34,7 +34,7 @@ class Database(BaseModel):
 
 
 class Settings(BaseSettings):
-    test_mode: bool = True
+    test_mode: bool = False
     db: Database = Database()
     test_db: Database = Database()
     base_url: HttpUrl = 'http://localhost'

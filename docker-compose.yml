@@ -1,4 +1,15 @@
 services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    container_name: app
+    networks:
+      - test_task_net
+    environment:
+      - WALLET__DB__HOST=database
+    ports:
+      - 8000:8000
   db:
       image: postgres:13.22-alpine3.22
       container_name: postgres_alpine
