@@ -6,10 +6,10 @@ from fastapi import (HTTPException,
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 
-from database import async_session_factory
-from schemas import (OperationType,
+from core.database import async_session_factory
+from core.schemas import (OperationType,
                      OperationSchema)
-from models import Wallet
+from core.models import Wallet
 
 
 
@@ -20,11 +20,14 @@ async def update_wallet_balance(operation: OperationSchema,
     try:
         async with session_factory() as session:
             wallet_to_update: Wallet = await session.get(Wallet, id)
-            if operation.operation_type == OperationType.deposit:
+            if not wallet_to_update:
+                raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                                    detail='Ошибка при выполнении транзакции. '
+                                    'Кошелька с таким uuid не существует')
+            if operation.operation_type == OperationType.deposit.value:
                 wallet_to_update.balance += operation.amount
-            elif operation.operation_type == OperationType.withdraw:
+            elif operation.operation_type == OperationType.withdraw.value:
                 wallet_to_update.balance -= operation.amount
-            
             await session.commit()
             return wallet_to_update
     except IntegrityError as e:
@@ -36,13 +39,13 @@ async def update_wallet_balance(operation: OperationSchema,
 async def get_wallet_by_id(id: uuid.UUID,
                      session_factory: AsyncGenerator[AsyncSession] 
                      =async_session_factory) -> Wallet:
-    try:
         async with session_factory() as session:
-            return await session.get(Wallet, id)
-    except IntegrityError as e:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                            detail='Ошибка при получении кошелька. '
-                            'Кошелек с таким uuid не существует в базе')
+            result = await session.get(Wallet, id)
+            if not result:
+                raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                                    detail='Ошибка при получении кошелька. '
+                                    'Кошелек с таким uuid не существует в базе')
+            return result
     
 
 async def create_wallet(id: uuid.UUID = uuid.uuid4(),

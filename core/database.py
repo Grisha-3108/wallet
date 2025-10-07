@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import (create_async_engine,
                                     AsyncSession)
 
 
-from config import settings
+from core.config import settings
 
 
 if settings.test_mode:

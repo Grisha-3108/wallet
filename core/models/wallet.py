@@ -1,4 +1,5 @@
 import uuid
+from decimal import Decimal
 
 from sqlalchemy.types import UUID, Numeric
 from sqlalchemy.orm import (Mapped, 
@@ -15,7 +16,7 @@ class Wallet(Base):
                                           primary_key=True,
                                           default=uuid.uuid4)
     
-    balance: Mapped[float] = mapped_column(Numeric(10,2),
+    balance: Mapped[Decimal] = mapped_column(Numeric(10,2),
                                            nullable=False,
                                            default='0',
                                            server_default='0')

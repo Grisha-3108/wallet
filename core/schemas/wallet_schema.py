@@ -1,4 +1,5 @@
 from uuid import UUID
+from decimal import Decimal
 
 from pydantic import (BaseModel,
                       ConfigDict)
@@ -7,6 +8,6 @@ from pydantic import (BaseModel,
 
 class WalletSchema(BaseModel):
     id: UUID
-    balance: float
+    balance: Decimal
 
     model_config = ConfigDict(from_attributes=True)
