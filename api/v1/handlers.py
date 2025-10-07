@@ -1,7 +1,7 @@
 import uuid
-from typing import Optional
 
-from fastapi import APIRouter
+from fastapi import (APIRouter,
+                     status)
 
 from core.schemas import (OperationSchema,
                           WalletSchema)
@@ -26,6 +26,7 @@ async def get_wallet_handler(WALLET_UUID: uuid.UUID):
     return await get_wallet_by_id(WALLET_UUID)
 
 
-@v1_router.post('/wallets/create/{WALLET_UUID}')
+@v1_router.post('/wallets/create/{WALLET_UUID}',
+                status_code=status.HTTP_201_CREATED)
 async def create_wallet_handler(WALLET_UUID: uuid.UUID):
     return await create_wallet(WALLET_UUID)

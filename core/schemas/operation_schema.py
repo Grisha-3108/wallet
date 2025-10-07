@@ -15,6 +15,6 @@ class OperationType(enum.Enum):
 
 class OperationSchema(BaseModel):
     operation_type: OperationType
-    amount: Annotated[Decimal, Ge(ge=Decimal('0'))]
+    amount: Annotated[float, Ge(ge=0)]
 
     model_config = ConfigDict(use_enum_values=True)

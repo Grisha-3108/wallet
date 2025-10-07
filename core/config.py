@@ -9,7 +9,8 @@ from pydantic import (BaseModel,
                       computed_field, 
                       PostgresDsn,
                       NonNegativeInt,
-                      PositiveInt)
+                      PositiveInt,
+                      HttpUrl)
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -33,14 +34,15 @@ class Database(BaseModel):
 
 
 class Settings(BaseSettings):
-    test_mode: bool = False
+    test_mode: bool = True
     db: Database = Database()
     test_db: Database = Database()
+    base_url: HttpUrl = 'http://localhost'
     model_config = SettingsConfigDict(env_file=BASE_DIR / '.env',
                                       case_sensitive=False,
                                       env_nested_delimiter='__',
                                       env_file_encoding='utf-8',
                                       env_prefix='WALLET__')
-    
+
 
 settings = Settings()

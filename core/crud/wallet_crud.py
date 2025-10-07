@@ -1,5 +1,6 @@
 from typing import AsyncGenerator
 import uuid
+from decimal import Decimal
 
 from fastapi import (HTTPException,
                      status)
@@ -25,9 +26,9 @@ async def update_wallet_balance(operation: OperationSchema,
                                     detail='Ошибка при выполнении транзакции. '
                                     'Кошелька с таким uuid не существует')
             if operation.operation_type == OperationType.deposit.value:
-                wallet_to_update.balance += operation.amount
+                wallet_to_update.balance += Decimal(str(operation.amount))
             elif operation.operation_type == OperationType.withdraw.value:
-                wallet_to_update.balance -= operation.amount
+                wallet_to_update.balance -= Decimal(str(operation.amount))
             await session.commit()
             return wallet_to_update
     except IntegrityError as e:

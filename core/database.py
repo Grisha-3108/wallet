@@ -8,14 +8,8 @@ from sqlalchemy.ext.asyncio import (create_async_engine,
 from core.config import settings
 
 
-if settings.test_mode:
-    async_engine = create_async_engine(settings.test_db.postgre_connection_string,
-                                       pool_size=settings.test_db.pool_size,
-                                       max_overflow=settings.test_db.max_overflow,
-                                       isolation_level=settings.db.isolation_level,
-                                       connect_args = {'ssl': settings.db.ssl})
-else:
-    async_engine = create_async_engine(settings.db.postgre_connection_string,
+
+async_engine = create_async_engine(settings.db.postgre_connection_string,
                                        pool_size=settings.db.pool_size,
                                        max_overflow=settings.db.max_overflow,
                                        isolation_level=settings.test_db.isolation_level,
