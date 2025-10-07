@@ -1,16 +1,13 @@
 import enum
 from typing import Annotated
-from decimal import Decimal
 
 from annotated_types import Ge
-from pydantic import (BaseModel,
-                      ConfigDict)
+from pydantic import BaseModel, ConfigDict
 
 
 class OperationType(enum.Enum):
-    deposit = 'DEPOSIT'
-    withdraw = 'WITHDRAW'
-
+    deposit = "DEPOSIT"
+    withdraw = "WITHDRAW"
 
 
 class OperationSchema(BaseModel):

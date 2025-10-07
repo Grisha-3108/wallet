@@ -1,5 +1,4 @@
-__all__ = ['Base', 
-           'Wallet']
+__all__ = ["Base", "Wallet"]
 
 
 from .base import Base

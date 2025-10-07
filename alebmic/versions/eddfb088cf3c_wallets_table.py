@@ -1,10 +1,11 @@
 """wallets table
 
 Revision ID: eddfb088cf3c
-Revises: 
+Revises:
 Create Date: 2025-10-07 10:29:46.656777
 
 """
+
 from typing import Sequence, Union
 
 from alembic import op
@@ -12,7 +13,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'eddfb088cf3c'
+revision: str = "eddfb088cf3c"
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -20,13 +21,19 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     """Upgrade schema."""
-    op.create_table('wallets',
-    sa.Column('id', sa.UUID(), nullable=False),
-    sa.Column('balance', sa.Numeric(precision=10, scale=2), server_default='0', nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    op.create_table(
+        "wallets",
+        sa.Column("id", sa.UUID(), nullable=False),
+        sa.Column(
+            "balance",
+            sa.Numeric(precision=10, scale=2),
+            server_default="0",
+            nullable=False,
+        ),
+        sa.PrimaryKeyConstraint("id"),
     )
 
 
 def downgrade() -> None:
     """Downgrade schema."""
-    op.drop_table('wallets')
+    op.drop_table("wallets")

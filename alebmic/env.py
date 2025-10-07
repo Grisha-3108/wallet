@@ -12,9 +12,9 @@ from core.config import settings
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_main_option('sqlalchemy.url', 
-                       settings.db.postgre_connection_string 
-                       + f'?ssl={settings.db.ssl}')
+config.set_main_option(
+    "sqlalchemy.url", settings.db.postgre_connection_string + f"?ssl={settings.db.ssl}"
+)
 
 
 # Interpret the config file for Python logging.
@@ -74,7 +74,7 @@ async def run_async_migrations() -> None:
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
-        poolclass=pool.NullPool
+        poolclass=pool.NullPool,
     )
 
     async with connectable.connect() as connection:
