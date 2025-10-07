@@ -1,0 +1,38 @@
+services:
+  db:
+      image: postgres:13.22-alpine3.22
+      container_name: postgres_alpine
+      hostname: database
+      restart: always
+      environment:
+        POSTGRES_USER: admin
+        POSTGRES_PASSWORD: admin
+        POSTGRES_DB: wallet
+      ports:
+        - 5432:5432
+      networks:
+        - test_task_net
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+        interval: 30s
+        timeout: 60s
+        retries: 5
+        start_period: 80s
+      deploy:
+        resources:
+          limits:
+            cpus: '0.5'
+            memory: '1024M'
+          reservations:
+            cpus: '0.05'
+            memory: '256M'
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - test_task_net
+    ports:
+      - 8080:8080
+networks:
+  test_task_net:
+    driver: bridge
