@@ -11,3 +11,6 @@ wheels/
 
 #No env files
 .env
+
+#No docx file
+*.docx
