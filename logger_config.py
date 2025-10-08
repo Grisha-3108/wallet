@@ -4,9 +4,11 @@ import sys
 from core.config import settings
 
 
-formatter = logging.Formatter(fmt='[%(levelname)-8s %(asctime)s.%(msecs)s]'
-                              ' %(module)-20s:%(lineno)4s - %(message)s',
-                              datefmt=r'%Y-%M-%d %H:%M:%S')
+formatter = logging.Formatter(
+    fmt="[%(levelname)-8s %(asctime)s.%(msecs)s]"
+    " %(module)-20s:%(lineno)4s - %(message)s",
+    datefmt=r"%Y-%M-%d %H:%M:%S",
+)
 handler = logging.StreamHandler(stream=sys.stdout)
 handler.setFormatter(formatter)
 

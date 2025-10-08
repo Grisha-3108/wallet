@@ -10,6 +10,9 @@ services:
       - WALLET__DB__HOST=database
     ports:
       - 8000:8000
+    depends_on:
+      db:
+        condition: service_healthy
   db:
       image: postgres:13.22-alpine3.22
       container_name: postgres_alpine
@@ -28,7 +31,7 @@ services:
         interval: 30s
         timeout: 60s
         retries: 5
-        start_period: 80s
+        start_period: 200s
       deploy:
         resources:
           limits:
