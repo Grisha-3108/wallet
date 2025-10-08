@@ -1,6 +1,7 @@
 from typing import Annotated
 from pathlib import Path
 from annotated_types import Le
+import logging
 
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -37,10 +38,11 @@ class Database(BaseModel):
 
 
 class Settings(BaseSettings):
-    test_mode: bool = False
+    test_mode: bool = True
     db: Database = Database()
     test_db: Database = Database()
     base_url: HttpUrl = "http://localhost"
+    log_level: int = logging.ERROR
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env",
         case_sensitive=False,

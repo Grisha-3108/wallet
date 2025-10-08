@@ -14,3 +14,8 @@ wheels/
 
 #No docx file
 *.docx
+
+
+#No cache
+.pytest_cache
+.ruff_cache
