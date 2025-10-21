@@ -24,7 +24,7 @@ class Database(BaseModel):
     name: str = "wallet"
     username: str = "admin"
     password: str = "admin"
-    isolation_level: str = "SERIALIZABLE"
+    isolation_level: str = "READ COMMITTED"
     pool_size: PositiveInt = 10
     max_overflow: PositiveInt = 10
     ssl: str = "disable"  # allow prefer require verify-ca verify-full

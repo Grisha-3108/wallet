@@ -18,7 +18,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI()
 graphql = GraphQLRouter(
-    schema, allow_queries_via_get=False, graphql_ide="apollo-sandbox"
+    schema, 
+    allow_queries_via_get=False, 
+    graphql_ide=None
 )
 
 app.include_router(api_main_router)

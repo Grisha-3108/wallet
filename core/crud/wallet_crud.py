@@ -19,7 +19,7 @@ async def update_wallet_balance(
 ) -> Wallet:
     async with session_factory() as session:
         try:
-            wallet_to_update: Wallet = await session.get(Wallet, str(id))
+            wallet_to_update: Wallet = await session.get(Wallet, str(id), with_for_update=True)
             if not wallet_to_update:
                 raise HTTPException(
                     status_code=status.HTTP_409_CONFLICT,
@@ -32,12 +32,6 @@ async def update_wallet_balance(
                 wallet_to_update.balance -= Decimal(str(operation.amount))
             await session.commit()
             return wallet_to_update
-        except IntegrityError:
-            await session.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail="Ошибка при выполнении транзакции. Повторите операцию позже.",
-            )
         except Exception:
             await session.rollback()
             logger.exception("Ошибка при изменении баланса кошелька.")
