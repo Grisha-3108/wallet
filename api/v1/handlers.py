@@ -4,6 +4,7 @@ from fastapi import APIRouter, status
 
 from core.schemas import OperationSchema, WalletSchema
 from core.crud import get_wallet_by_id, update_wallet_balance, create_wallet
+from logger_config import logger
 
 
 v1_router = APIRouter(prefix="/v1", tags=["Wallet v1 api"])

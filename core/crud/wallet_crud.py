@@ -5,6 +5,7 @@ from decimal import Decimal
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import StaleDataError
 
 from core.database import async_session_factory
 from core.schemas import OperationType, OperationSchema
@@ -19,7 +20,7 @@ async def update_wallet_balance(
 ) -> Wallet:
     async with session_factory() as session:
         try:
-            wallet_to_update: Wallet = await session.get(Wallet, str(id), with_for_update=True)
+            wallet_to_update: Wallet = await session.get(Wallet, str(id))
             if not wallet_to_update:
                 raise HTTPException(
                     status_code=status.HTTP_409_CONFLICT,
@@ -32,6 +33,11 @@ async def update_wallet_balance(
                 wallet_to_update.balance -= Decimal(str(operation.amount))
             await session.commit()
             return wallet_to_update
+        except StaleDataError:
+            await session.rollback()
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                                detail='Ошибка при выполнении операции. '
+                                'Повторите операцию позже.')
         except Exception:
             await session.rollback()
             logger.exception("Ошибка при изменении баланса кошелька.")
